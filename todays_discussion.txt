@@ -1,0 +1,240 @@
+Yesterday we got some idea on the we application development with JSP and Servlet.
+The technologies like JSP and Servlet are part of JEE.
+Apart from JEE , we have JSE and JME. 
+
+Our concern should be on JSE and some part of JEE.
+
+So yesterday we got some idea on MVC architectural pattern. So in MVC architectural
+pattern we try to divide our entire application in different layers and each
+performing their own task.
+
+M=====> Model    ===========> Any Java class
+V=====> View      ==========> JSP
+C=====> Controller =========> Servlet
+-------------------------------------------------------------------- 
+If we have created the workspace first and added some project and then we have added tomcat , in that case we have to relate the web projects to the tomcat server. 
+
+Right click on the project, -----> Properties-------------> Target Runtimes----------> Select for
+Apache Tomcat.
+
+The above selections you don't have to make if we have created a new workspace , added the tomcat 
+server and then started creating the new web projects. 
+
+Further read:-----------
+https://www.tutorialspoint.com/design_pattern/mvc_pattern.htm
+-----------------------------------------------------------------------------------------------------
+Spring MVC:
+
+   Spring Boot MVC:-
+
+What is Spring Boot?
+Spring Boot is a project of Spring only. 
+Spring Boot makes it easy to create standalone , production grade Spring Application Easier.
+We even dont need to add the server explicitly, servers are part of the application.
+
+With Spring we have challenges related
+* to Dependency mismatch
+* Certain configuration which we have do at our end.
+------------------------------------------------------------------------------------------------
+
+How we start with a basic Spring Boot MVC project?
+
+STEP1: - So with STS ( Spring Tool Suite) , File -----> New -----> Spring Starter Project. 
+STEP2:- In the dialog box , name of the project, group and the package name.
+STEP3:- Add the required dependencies
+       So currently as we are creating a web project , so we are going to add web related dependencies.
+    
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.demo.cts</groupId>
+	<artifactId>springbootmvcdemo1</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springbootmvcdemo1</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+--------------------------------------------------------------------------------------------------
+Within this pom.xml , we have to include the JAsper engine so that it can interpret JSP pages.
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.demo.cts</groupId>
+	<artifactId>springbootmvcdemo1</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springbootmvcdemo1</name>
+	<description>Demo project for Spring Boot</description>
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper -->
+<dependency>
+    <groupId>org.apache.tomcat.embed</groupId>
+    <artifactId>tomcat-embed-jasper</artifactId>
+    
+</dependency>
+		
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
+-------------------------------------------------------------------------------------------------------------
+
+Now let us create the Controller and Views.
+
+Whenever we are creating the new components try to ensure that it is within the subpackage where the main application is so for example, if main is within 
+   com.demo
+then other components for example the controller will be as the subpackage
+   com.demo.controller.
+
+
+package com.demo.cts.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
+public class HelloController {
+
+	   @GetMapping("/")
+	   public String hello()
+	   {
+		   return "index";
+	   }
+}
+
+
+[Note: When we are making a request , such as 
+
+   http://localhost:4444/
+
+------------------------------------------------------------------------------------
+
+application.properites ( Here we can mention the port on which the spring boot application will run)
+and we will be mentioning the location of JSP pages 
+
+
+server.port=4444
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+
+---------------------------------------------------------------------------------------------------------------
+Let us plan for creating the views ( that is the jsp pages)
+
+Where we should we have WEB-INF folder ?
+
+    src
+     |
+     |----main
+            |------java
+            |------resources
+            |------webapp
+                      |
+                      |
+                      |----------WEB-INF
+                                    |
+                                    |
+                                    |------------views
+                                                   |
+                                                   |
+                                                     *.jsp    
+
+-----------------------------------------------------------------------------------
+index.jsp
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+     Welcome to my first WEb page!!!!!!!!!!!!!
+</body>
+</html>
+--------------------------------------------------------------------------------------
+How to execute the first spring boot web application?
+
+package com.demo.cts;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class Springbootmvcdemo1Application {
+
+	public static void main(String[] args) {
+		SpringApplication.run(Springbootmvcdemo1Application.class, args);
+	}
+
+}
+
+Open the above code and right click.Run as Spring Boot application.
+
+------------------------------------------------------------------------------------------------------------
+Let us accept user input and validate if it is admin admin the control will be taken to success.jsp otherwise
+error.jsp
+
+
+ 
